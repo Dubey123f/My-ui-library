@@ -34,3 +34,24 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Simple UI Library
+
+To use this UI library in your React project:
+
+1. Copy the `UILibrary.tsx` file into your project.
+2. Make sure you have Tailwind CSS set up in your project for styling.
+3. Import and use the components in your React components as follows:
+
+```jsx
+import { Button, Card, Input } from './path/to/UILibrary';
+
+function MyComponent() {
+  return (
+    <div>
+      <Card title="Example Card">
+        <Input placeholder="Enter your name" />
+        <Button variant="primary">Submit</Button>
+      </Card>
+    </div>
+  );
+}
