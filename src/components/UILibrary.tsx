@@ -1,13 +1,74 @@
 
 
 // export default UILibrary;
-import React, { useState } from 'react';
+import React, { useState, SetStateAction  } from 'react';
 import CodeBlock from './CodeBlock';
 import ColorChooser from './theme/ColorChooser';
 import Sidebar from './layout/Sidebar';
-import DraggableMultipleColumns from './DraggableComponents';
-import Footer from './footer';
+import Navbar from './layout/Navbar';
+import DraggableMultipleColumns from './Drag/DraggableComponents';
+import Footer from './Footer/footer';
+import Input from '../components/input'
+import Mailbox from './mailbox/Mailbox'; 
+import DashboardLayout from './layout/DashboardLayout';
+import TooltipExample from './ToolTippp/TooltipExample';
+import ImageAccordion from './Accordion/ImgAcc';
+import { CarouselItem}  from './types';
+import Carousel from './Carousel';
+
+import {
+  Accordion,
+   AccordionContainer,
+    AccordionHeader,
+    AccordionItem,
+    AccordionPanel,
+  AccordionWrapper,
+  } from './Accordion/Acc';
+  
+
+// import { Card, CardHeader, CardContent } from './ui/Card';
 // Define Alert component
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={`rounded-lg border border-slate-800 bg-black text-white shadow-sm transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-lg hover:bg-blue-400 ${className}`}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+Card.displayName = 'Card';
+
+const CardHeader = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={`flex flex-col space-y-1.5 p-6 ${className}`}
+        {...props}
+      />
+    );
+  }
+);
+CardHeader.displayName = 'CardHeader';
+
+const CardContent = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div ref={ref} className={`p-6 pt-0 ${className}`} {...props} />
+    );
+  }
+);
+CardContent.displayName = 'CardContent';
+
 interface AlertProps {
   type?: 'info' | 'success' | 'warning' | 'error';
   message: string;
@@ -22,9 +83,11 @@ const Alert: React.FC<AlertProps> = ({ type = 'info', message }) => {
   };
 
   return (
+    <section id="a">
     <div className={`p-4 rounded-lg border-l-4 ${styles[type]}`}>
       {message}
     </div>
+    </section>
   );
 };
 
@@ -64,7 +127,9 @@ const UILibrary = () => {
   );
 };`,
           preview: (
+            <section id ="b">
             <div className="space-x-2">
+              {/* <div>Button</div> */}
              <button key="primary" className="px-4 py-2 rounded font-semibold bg-blue-500 text-white hover:bg-blue-600">
       Primary
     </button>
@@ -75,7 +140,116 @@ const UILibrary = () => {
       Danger
     </button>
             </div>
+            </section>
           )
+        },
+        {
+name:'Tooltip Component',
+description: 'A customizable Tooltip component .',
+code:`
+
+import React, { useState } from 'react';
+import Tooltip from './Tooltip'; // Ensure the path is correct
+
+const TooltipExample: React.FC = () => {
+
+
+  return (
+    <section id="h">
+      <div className="p-4 border rounded shadow-md bg-gray-800">
+        <Tooltip text="This is a tooltip">
+          <button className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Hover me</button>
+        </Tooltip>
+
+    
+
+       
+ 
+      </div>
+    </section>
+  );
+};
+
+export default TooltipExample;
+
+`,
+preview: <TooltipExample/>
+        },
+         
+        {
+          name: 'Card Component',
+          description: 'A customizable card component with header and content areas.',
+          code: `
+      import { Card, CardHeader, CardContent } from './Card';
+      
+      <Card className="max-w-md mx-auto">
+        <CardHeader>
+          <h2 className="text-xl font-semibold">Card Title</h2>
+          <p className="text-sm text-slate-600">Card subtitle or additional information.</p>
+        </CardHeader>
+        <CardContent>
+          <p>This is the main content of the card.</p>
+        </CardContent>
+      </Card>
+          `,
+          preview: (
+            <section id="c">
+            <Card className="max-w-md mx-auto">
+              <CardHeader>
+                <h2 className="text-xl font-semibold">Card Title</h2>
+                <p className="text-sm text-slate-600">Card subtitle or additional information.</p>
+              </CardHeader>
+              <CardContent>
+                <p>This is the main content of the card.</p>
+              </CardContent>
+            </Card>
+            </section>
+          ),
+        },
+        {
+          name: 'MailBox',
+          description: 'A customizable Mailbox.',
+          code: `
+    
+import React from 'react';
+
+interface Email {
+  id: number;
+  subject: string;
+  sender: string;
+  preview: string;
+}
+
+const Mailbox: React.FC = () => {
+  const emails: Email[] = [
+    { id: 1, subject: 'Welcome to our service', sender: 'support@example.com', preview: 'Thank you for joining...' },
+    { id: 2, subject: 'Your invoice', sender: 'billing@example.com', preview: 'Please find attached...' },
+    { id: 3, subject: 'New feature announcement', sender: 'product@example.com', preview: 'Were excited to share...' },
+  ];
+
+  return (
+    <div className="bg-white shadow-md rounded-lg overflow-hidden">
+      <div className="bg-gray-100 px-4 py-3 border-b">
+        <h2 className="text-lg font-semibold text-gray-800">Inbox</h2>
+      </div>
+      <ul className="divide-y divide-gray-200">
+        {emails.map((email) => (
+          <li key={email.id} className="px-4 py-3 hover:bg-gray-50 cursor-pointer">
+            <div className="flex justify-between">
+              <span className="font-semibold text-gray-800">{email.subject}</span>
+              <span className="text-sm text-gray-500">{email.sender}</span>
+            </div>
+            <p className="text-sm text-gray-600 truncate">{email.preview}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Mailbox;
+          `,
+          preview:<Mailbox/>,
         },
         
         {
@@ -93,6 +267,7 @@ const UILibrary = () => {
   );
 };`,
           preview: (
+            <section id="fo">
             <form className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-300">Email</label>
@@ -108,10 +283,45 @@ const UILibrary = () => {
                 Submit
               </button>
             </form>
+            </section>
           )
         }
       ]
     },
+
+    {
+      name: 'Carousel',
+      description: 'A Carousel Component',
+      code: `Hello.tsx`,
+      preview: 
+        <Carousel
+          items={[
+            {
+              id: 1,
+              url: 'https://images.pexels.com/photos/29112913/pexels-photo-29112913/free-photo-of-misty-pine-forest-on-bhutan-hillside.jpeg?auto=compress&cs=tinysrgb&w=600',
+            
+              altText: 'Misty Mountain Landscape',
+            },
+            {
+              id: 2,
+              url: 'https://images.pexels.com/photos/29172425/pexels-photo-29172425/free-photo-of-scenic-dock-overlooking-chiang-mai-lake-at-sunset.jpeg?auto=compress&cs=tinysrgb&w=600',
+              altText: 'Serene Lake at Sunset',
+            },
+            {
+              id: 3,
+              url: 'https://images.pexels.com/photos/2093323/pexels-photo-2093323.jpeg?auto=compress&cs=tinysrgb&w=600',
+              altText: 'Vibrant City Skyline at Night',
+            },
+            {
+              id: 4,
+              url: 'https://images.pexels.com/photos/14014270/pexels-photo-14014270.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+              altText: 'A beautiful flower',
+            },
+          ]}
+        />
+      
+    },
+   
     {
                             name: 'Modal',
                             code: `
@@ -164,6 +374,7 @@ const UILibrary = () => {
         }
       ]
     },
+   
      // Layout Components Section
     {
       section: "Layout Components",
@@ -207,6 +418,339 @@ const Sidebar = () => {
 };`,
           preview: <Sidebar />
         },
+        {
+          name:'Accordion',
+          description:'A Accordion Component',
+          code:`import React from 'react';
+import {
+  Accordion,
+  AccordionContainer,
+  AccordionHeader,
+  AccordionItem,
+  AccordionPanel,
+  AccordionWrapper,
+} from './Acc';
+
+function Alm() {
+  return (
+    <AccordionContainer className='md:grid-cols-2 grid-cols-1'>
+      <AccordionWrapper>
+        <Accordion defaultValue={'item-1'}>
+          <AccordionItem value='item-1'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              What is a UI component?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              A UI (User Interface) component is a modular, reusable element
+              that serves a specific function within a graphical user interface.
+              Examples include buttons, input fields, dropdown menus, sliders.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-2'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              Why are components important?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              UI components promote consistency, efficiency, and scalability in
+              software development. They allow developers to reuse code,
+              maintain a consistent look and feel across an application.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-3'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              UI Component Traits
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              Well-designed UI components should be modular, customizable, and
+              accessible. They should have clear and intuitive functionality, be
+              easily styled to match the overall design language.
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </AccordionWrapper>
+      <AccordionWrapper>
+        <Accordion defaultValue={'item-5'}>
+          <AccordionItem value='item-4'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              Does Component Improve UX?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              UI components can improve UX by providing familiar, consistent
+              interactions that make it easy for users to navigate and interact
+              with an application byy using recognizable patterns.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-5'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              component design challenges?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              Some common challenges include maintaining consistency across
+              different devices and screen sizes, ensuring compatibility with
+              various browsers and assistive technologies with ease of use.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-6'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              Ensure Responsiveness
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              Developers can ensure the responsiveness of UI components by using
+              techniques such as fluid layouts, flexible grids, and media
+              queries to adapt the components to different screen sizes.
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </AccordionWrapper>
+    </AccordionContainer>
+  );
+}
+export default Alm();
+`,
+          preview: (
+            <AccordionContainer className='md:grid-cols-2 grid-cols-1'>
+      <AccordionWrapper>
+        <Accordion defaultValue={'item-1'}>
+          <AccordionItem value='item-1'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              What is a UI component?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              A UI (User Interface) component is a modular, reusable element
+              that serves a specific function within a graphical user interface.
+              Examples include buttons, input fields, dropdown menus, sliders.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-2'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              Why are components important?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              UI components promote consistency, efficiency, and scalability in
+              software development. They allow developers to reuse code,
+              maintain a consistent look and feel across an application.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-3'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              UI Component Traits
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              Well-designed UI components should be modular, customizable, and
+              accessible. They should have clear and intuitive functionality, be
+              easily styled to match the overall design language.
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </AccordionWrapper>
+      <AccordionWrapper>
+        <Accordion defaultValue={'item-5'}>
+          <AccordionItem value='item-4'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              Does Component Improve UX?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              UI components can improve UX by providing familiar, consistent
+              interactions that make it easy for users to navigate and interact
+              with an application byy using recognizable patterns.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-5'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              component design challenges?
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              Some common challenges include maintaining consistency across
+              different devices and screen sizes, ensuring compatibility with
+              various browsers and assistive technologies with ease of use.
+            </AccordionPanel>
+          </AccordionItem>
+          <AccordionItem value='item-6'>
+            <AccordionHeader className='2xl:text-base text-sm'>
+              Ensure Responsiveness
+            </AccordionHeader>
+            <AccordionPanel className='2xl:text-base text-sm'>
+              Developers can ensure the responsiveness of UI components by using
+              techniques such as fluid layouts, flexible grids, and media
+              queries to adapt the components to different screen sizes.
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
+      </AccordionWrapper>
+    </AccordionContainer>
+          ),
+
+        },
+        {
+          name: 'Image Accordion',
+          description: 'A responsive Image Accordion component',
+          code: `// ImageAccordion.tsx
+import React, { useState } from 'react';
+import { AccordionItem } from './types';
+
+interface ImageAccordionProps {
+  items: AccordionItem[];
+}
+
+const ImageAccordion: React.FC<ImageAccordionProps> = ({ items }) => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+  const handleToggle = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  return (
+    <div className="space-y-4">
+      {items.map((item, index) => (
+        <div
+          key={item.id}
+          className="border rounded-lg overflow-hidden shadow-lg"
+          onClick={() => handleToggle(index)}
+        >
+          <div className="flex items-center p-4 cursor-pointer bg-gray-100">
+            <img
+              src={item.url}
+              alt={item.title}
+              className="w-16 h-16 object-cover rounded-md mr-4"
+            />
+            <h2 className="text-lg font-semibold">{item.title}</h2>
+          </div>
+          {expandedIndex === index && (
+            <div className="p-4 bg-white">
+              <p className="text-sm text-gray-700">{item.description}</p>
+              <div className="flex space-x-2 mt-2">
+                {item.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-md"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default ImageAccordion;
+`,
+          preview: <ImageAccordion items={[
+            {
+              id: 1,
+              url: 'https://images.pexels.com/photos/12784538/pexels-photo-12784538.jpeg?auto=compress&cs=tinysrgb&w=600', // Replace with actual image URL
+              title: 'Misty Mountain Majesty',
+              description:
+                'A breathtaking view of misty mountains shrouded in clouds, creating an ethereal landscape.',
+              tags: ['Misty', 'Mountains', 'Clouds', 'Ethereal', 'Landscape'],
+            },
+            {
+              id: 2,
+              url: 'https://images.pexels.com/photos/1105389/pexels-photo-1105389.jpeg?auto=compress&cs=tinysrgb&w=600', // Replace with actual image URL
+              title: 'Sunset Over the Lake',
+              description:
+                'A serene sunset reflecting on a tranquil lake, surrounded by lush forests.',
+              tags: ['Sunset', 'Lake', 'Reflection', 'Tranquil', 'Nature'],
+            },
+          ]} />
+        },
+        {
+          name: 'Navbar',
+          description: 'A responsive navigation bar component',
+          code: `// src/components/layout/Navbar.tsx
+'use client';
+import React, { useState } from 'react';
+import Link from 'next/link';
+
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <nav className="bg-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link href="/" className="text-xl font-bold">
+              Logo
+            </Link>
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100"
+            >
+              <span className="sr-only">Open main menu</span>
+              {/* Hamburger icon */}
+              <svg
+                className="h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Desktop menu */}
+          <div className="hidden md:flex md:items-center md:space-x-4">
+            <Link href="/dashboard" className="text-gray-700 hover:text-gray-900">
+              Dashboard
+            </Link>
+            <Link href="/mailbox" className="text-gray-700 hover:text-gray-900">
+              Mailbox
+            </Link>
+            <Link href="/settings" className="text-gray-700 hover:text-gray-900">
+              Settings
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link
+              href="/dashboard"
+              className="block px-3 py-2 text-gray-700 hover:text-gray-900"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/mailbox"
+              className="block px-3 py-2 text-gray-700 hover:text-gray-900"
+            >
+              Mailbox
+            </Link>
+            <Link
+              href="/settings"
+              className="block px-3 py-2 text-gray-700 hover:text-gray-900"
+            >
+              Settings
+            </Link>
+          </div>
+        </div>
+      )}
+    </nav>
+  );
+};
+
+export default Navbar;`,
+          preview: <Navbar />
+        },
+      
         {
           name: 'Footer',
           description: 'A simple footer component',
@@ -466,6 +1010,40 @@ export default Footer;
         // Add more layout components here
       ]
     },
+    // {
+    //   name: 'Carousel',
+    //   description: 'A Carousel Component',
+    //   code: `Hello.tsx`,
+    //   preview: (
+    //     <Carousel
+    //       items={[
+    //         {
+    //           id: 1,
+    //           url: 'https://images.pexels.com/photos/29112913/pexels-photo-29112913/free-photo-of-misty-pine-forest-on-bhutan-hillside.jpeg?auto=compress&cs=tinysrgb&w=600',
+            
+    //           altText: 'Misty Mountain Landscape',
+    //         },
+    //         {
+    //           id: 2,
+    //           url: 'https://images.pexels.com/photos/29172425/pexels-photo-29172425/free-photo-of-scenic-dock-overlooking-chiang-mai-lake-at-sunset.jpeg?auto=compress&cs=tinysrgb&w=600',
+    //           altText: 'Serene Lake at Sunset',
+    //         },
+    //         {
+    //           id: 3,
+    //           url: 'https://images.pexels.com/photos/2093323/pexels-photo-2093323.jpeg?auto=compress&cs=tinysrgb&w=600',
+    //           altText: 'Vibrant City Skyline at Night',
+    //         },
+    //         {
+    //           id: 4,
+    //           url: 'https://images.pexels.com/photos/14014270/pexels-photo-14014270.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+    //           altText: 'A beautiful flower',
+    //         },
+    //       ]}
+    //     />
+    //   ),
+    // },
+    
+   
     {
       section: "Drag and Drop",
       items: [
@@ -478,7 +1056,186 @@ export default Footer;
         {
           name: 'Multiple Columns',
           description: 'Drag and drop between multiple columns',
-          code: `// See implementation above`,
+          code: `// See implementation above
+          import React, { useState, useEffect } from 'react';
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+const initialColumns = {
+  available: {
+    id: 'available',
+    title: 'Available Components',
+    items: [
+      { id: 'button-1', content: 'Primary Button' },
+      { id: 'input-1', content: 'Text Input' },
+      { id: 'card-1', content: 'Basic Card' },
+    ],
+  },
+  selected: {
+    id: 'selected',
+    title: 'Selected Components',
+    items: [],
+  },
+};
+
+const SortableItem = ({ id, content }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      className="p-4 mb-2 bg-white rounded shadow cursor-move"
+    >
+      {content}
+    </div>
+  );
+};
+
+const DroppableContainer = ({ id, items, title }) => {
+  return (
+    <div className="flex-1">
+      <h2 className="text-xl font-bold mb-4">{title}</h2>
+      <div className="p-4 rounded-lg min-h-[200px] bg-gray-50">
+        <SortableContext items={items} strategy={verticalListSortingStrategy}>
+          {items.map((item) => (
+            <SortableItem key={item.id} id={item.id} content={item.content} />
+          ))}
+        </SortableContext>
+      </div>
+    </div>
+  );
+};
+
+const DraggableMultipleColumns = () => {
+  const [columns, setColumns] = useState(null);
+  const [isClient, setIsClient] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor)
+  );
+
+  useEffect(() => {
+    setColumns(initialColumns);
+    setIsClient(true);
+  }, []);
+
+  const findContainer = (id) => {
+    if (!columns) return null;
+    
+    const columnEntries = Object.entries(columns);
+    for (const [columnId, column] of columnEntries) {
+      const foundItem = column.items.find((item) => item.id === id);
+      if (foundItem) return columnId;
+    }
+    return null;
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    
+    if (!over) return;
+
+    const activeId = active.id;
+    const overId = over.id;
+    
+    const sourceContainerId = findContainer(activeId);
+    const destContainerId = findContainer(overId);
+    
+    if (!sourceContainerId || !destContainerId) return;
+
+    const sourceColumn = columns[sourceContainerId];
+    const destColumn = columns[destContainerId];
+
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+
+    const sourceIndex = sourceItems.findIndex((item) => item.id === activeId);
+    const destIndex = destItems.findIndex((item) => item.id === overId);
+
+    if (sourceContainerId === destContainerId) {
+      const newItems = arrayMove(sourceItems, sourceIndex, destIndex);
+      setColumns({
+        ...columns,
+        [sourceContainerId]: {
+          ...sourceColumn,
+          items: newItems,
+        },
+      });
+    } else {
+      const [movedItem] = sourceItems.splice(sourceIndex, 1);
+      destItems.splice(destIndex, 0, movedItem);
+      setColumns({
+        ...columns,
+        [sourceContainerId]: {
+          ...sourceColumn,
+          items: sourceItems,
+        },
+        [destContainerId]: {
+          ...destColumn,
+          items: destItems,
+        },
+      });
+    }
+  };
+
+  if (!isClient) {
+    return <div>Loading...</div>;
+  }
+
+  if (!columns) {
+    return null;
+  }
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCorners}
+      onDragEnd={handleDragEnd}
+    >
+      <div className="p-4 flex gap-4">
+        {Object.entries(columns).map(([columnId, column]) => (
+          <DroppableContainer
+            key={columnId}
+            id={columnId}
+            items={column.items}
+            title={column.title}
+          />
+        ))}
+      </div>
+    </DndContext>
+  );
+};
+
+export default DraggableMultipleColumns;`,
           preview: <DraggableMultipleColumns />
         }
       ]
@@ -490,49 +1247,109 @@ export default Footer;
           name: 'Dashboard Layout',
           description: 'A responsive dashboard layout with sidebar navigation and header.',
           code: `
-    import React, { useState } from 'react';
-    import { 
-      FiHome, 
-      FiUsers, 
-      FiSettings, 
-      FiPieChart, 
-      FiMenu, 
-      FiBell, 
-      FiUser,
-      FiX 
-    } from 'react-icons/fi';
-    
-    const DashboardLayout = ({ children }) => {
-      const [sidebarOpen, setSidebarOpen] = useState(false);
-    
-      const menuItems = [
-        { icon: <FiHome className="w-6 h-6" />, label: 'Dashboard', active: true },
-        { icon: <FiUsers className="w-6 h-6" />, label: 'Users' },
-        { icon: <FiPieChart className="w-6 h-6" />, label: 'Analytics' },
-        { icon: <FiSettings className="w-6 h-6" />, label: 'Settings' },
-      ];
-    
-      return (
-        <div className="min-h-screen bg-gray-100">
-          {/* Your dashboard layout code */}
+    // src/components/Dashboard.tsx
+import React from 'react';
+import Chart from '../dashboard/Chart';
+import StatsGrid from '../dashboard/Stats';
+
+const Dashboard: React.FC = () => {
+  // Sample data for the chart
+  const chartData = [
+    { month: 'Jan', value: 5000 },
+    { month: 'Feb', value: 7500 },
+    { month: 'Mar', value: 6000 },
+    { month: 'Apr', value: 9000 },
+    { month: 'May', value: 8000 },
+    { month: 'Jun', value: 12000 },
+  ];
+
+  // Sample data for stats
+  const statsData = [
+    {
+      title: 'Total Users',
+      value: '1,234',
+      icon: '👥',
+      change: 12,
+      color: 'blue' as 'blue',
+    },
+    {
+      title: 'Revenue',
+      value: '$12,345',
+      icon: '💰',
+      change: 8,
+      color: 'green' as 'green',
+    },
+    {
+      title: 'Active Projects',
+      value: '42',
+      icon: '📊',
+      change: -5,
+      color: 'purple' as 'purple',
+    },
+  ];
+
+  return (
+    <section id="D">
+    <div className="p-6 bg-gray-100">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-semibold text-gray-800">Dashboard</h1>
+        <div className="flex space-x-2">
+          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Export
+          </button>
+          <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+            Filter
+          </button>
         </div>
-      );
-    };`,
-          preview: (
-            <div className="mt-4 border border-gray-700 rounded-lg overflow-hidden">
-              <div className="bg-white p-4">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-4">
-                    <span className="text-xl font-semibold">Dashboard</span>
-                  </div>
-                  <div className="flex items-center space-x-4">
-                    <button className="p-2 hover:bg-gray-100 rounded-full">🔔</button>
-                    <button className="p-2 hover:bg-gray-100 rounded-full">👤</button>
-                  </div>
+      </div>
+
+      {/* Stats Grid */}
+      <StatsGrid stats={statsData} />
+
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Chart
+          data={chartData}
+          title="Monthly Revenue"
+          height="h-80"
+        />
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <h2 className="text-lg font-semibold text-gray-700 mb-4">Recent Activity</h2>
+          <div className="space-y-4">
+            {[1, 2, 3].map((item) => (
+              <div key={item} className="flex items-center space-x-3">
+                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                <div className="flex-1">
+                  <p className="text-sm text-gray-600">New user registration</p>
+                  <p className="text-xs text-gray-400">2 minutes ago</p>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Additional Metrics */}
+      <div className="mt-6 bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-lg font-semibold text-gray-700 mb-4">Performance Metrics</h2>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {['Page Views', 'Bounce Rate', 'Average Session', 'Conversion Rate'].map((metric) => (
+            <div key={metric} className="text-center">
+              <p className="text-gray-600 text-sm">{metric}</p>
+              <p className=" text-2xl font-bold text-gray-800">12,345</p>
             </div>
-          )
+          ))}
+        </div>
+      </div>
+    </div>
+    </section>
+  );
+};
+
+export default Dashboard;
+
+`,
+          preview: < DashboardLayout/>
         }
       ]
     },
@@ -554,8 +1371,9 @@ export default Footer;
 
 
 return (
-  <div className="container mx-auto p-4">
-    <h1 className="text-3xl font-bold mb-6 flex justify-center items-center text-white">MY-UI Component Library</h1>
+  <section id="home">
+  <div className="container mx-auto  p-4">
+    <h1 className="text-3xl font-bold mb-6  flex justify-center items-center  text-white">MY-UI Component Library</h1>
     {components.map((section, sectionIndex) => (
       <div key={`section-${sectionIndex}-${section.section}`} className="mb-8">
         <h2 className="text-2xl font-semibold mb-4 text-gray-300">{section.section}</h2>
@@ -579,7 +1397,8 @@ return (
               <p className="text-gray-400 mb-4">{component.description}</p>
             )}
             <div className="mb-4">
-              {component.preview}
+             { React.isValidElement(component.preview) ? component.preview : null }
+
             </div>
             {visibleCode === component.name && (
               <div className="mt-4 border-t border-gray-700 pt-4">
@@ -591,6 +1410,7 @@ return (
       </div>
     ))}
   </div>
+  </section>
 );
 };
 export default UILibrary;
