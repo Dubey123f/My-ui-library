@@ -178,7 +178,7 @@ import React, { ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/components/utils';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 // Define the types for the context
 interface AccordionContextType {
