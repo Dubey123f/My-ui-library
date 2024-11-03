@@ -116,29 +116,52 @@ const Dashboard: React.FC = () => {
   ];
 
   // Sample data for stats
+  // const statsData = [
+  //   {
+  //     title: 'Total Users',
+  //     value: '1,234',
+  //     icon: '👥',
+  //     change: 12,
+  //     color: 'blue' as 'blue',
+  //   },
+  //   {
+  //     title: 'Revenue',
+  //     value: '$12,345',
+  //     icon: '💰',
+  //     change: 8,
+  //     color: 'green' as 'green',
+  //   },
+  //   {
+  //     title: 'Active Projects',
+  //     value: '42',
+  //     icon: '📊',
+  //     change: -5,
+  //     color: 'purple' as 'purple',
+  //   },
+  // ];
   const statsData = [
-    {
-      title: 'Total Users',
-      value: '1,234',
-      icon: '👥',
-      change: 12,
-      color: 'blue' as 'blue',
-    },
-    {
-      title: 'Revenue',
-      value: '$12,345',
-      icon: '💰',
-      change: 8,
-      color: 'green' as 'green',
-    },
-    {
-      title: 'Active Projects',
-      value: '42',
-      icon: '📊',
-      change: -5,
-      color: 'purple' as 'purple',
-    },
-  ];
+  {
+    title: 'Total Users',
+    value: '1,234',
+    icon: '👥',
+    change: 12,
+    color: 'blue' as const, // Use `as const` here
+  },
+  {
+    title: 'Revenue',
+    value: '$12,345',
+    icon: '💰',
+    change: 8,
+    color: 'green' as const, // Use `as const` here
+  },
+  {
+    title: 'Active Projects',
+    value: '42',
+    icon: '📊',
+    change: -5,
+    color: 'purple' as const, // Use `as const` here
+  },
+];
 
   return (
     <section id="D">
