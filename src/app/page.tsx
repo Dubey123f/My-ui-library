@@ -102,7 +102,7 @@
 'use client';
 
 import UILibrary from '../components/UILibrary';
-import Link from 'next/link';
+
 import HomePage from '../components/Homepage';
 import Foo from '@/components/footer';
 import Head from 'next/head';
@@ -114,7 +114,7 @@ export default function Home() {
         <title>UI Component Library</title>
         <meta name="description" content="A collection of reusable UI components" />
         {/* Primary favicon in .ico or .png */}
-        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
         {/* Alternative .webp favicon */}
         <link rel="icon" type="image/webp" href="/fav.webp" />
       </Head>

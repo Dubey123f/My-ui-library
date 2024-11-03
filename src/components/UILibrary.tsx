@@ -8,13 +8,12 @@ import Sidebar from './layout/Sidebar';
 import Navbar from './layout/Navbar';
 import DraggableMultipleColumns from './Drag/DraggableComponents';
 import Footer from './Footer/footer';
-import Input from '../components/input'
+
 import Mailbox from './mailbox/Mailbox'; 
 import DashboardLayout from './layout/DashboardLayout';
 import TooltipExample from './ToolTippp/TooltipExample';
 import ImageAccordion from './Accordion/ImgAcc';
-import { CarouselItem}  from './types';
-import Carousel from './Carousel';
+
 
 import {
   Accordion,
@@ -107,6 +106,7 @@ const UILibrary = () => {
       section: "Basic Components",
       items: [
         {
+          // <section id ="b">
           name: 'Button',
           description: 'A versatile button component with multiple variants',
           code: `const Button = ({ children, onClick, variant = 'primary' }) => {
@@ -140,9 +140,12 @@ const UILibrary = () => {
       Danger
     </button>
             </div>
-            </section>
+           </section>
           )
+        
+         
         },
+      
         {
 name:'Tooltip Component',
 description: 'A customizable Tooltip component .',
@@ -289,38 +292,7 @@ export default Mailbox;
       ]
     },
 
-    {
-      name: 'Carousel',
-      description: 'A Carousel Component',
-      code: `Hello.tsx`,
-      preview: 
-        <Carousel
-          items={[
-            {
-              id: 1,
-              url: 'https://images.pexels.com/photos/29112913/pexels-photo-29112913/free-photo-of-misty-pine-forest-on-bhutan-hillside.jpeg?auto=compress&cs=tinysrgb&w=600',
-            
-              altText: 'Misty Mountain Landscape',
-            },
-            {
-              id: 2,
-              url: 'https://images.pexels.com/photos/29172425/pexels-photo-29172425/free-photo-of-scenic-dock-overlooking-chiang-mai-lake-at-sunset.jpeg?auto=compress&cs=tinysrgb&w=600',
-              altText: 'Serene Lake at Sunset',
-            },
-            {
-              id: 3,
-              url: 'https://images.pexels.com/photos/2093323/pexels-photo-2093323.jpeg?auto=compress&cs=tinysrgb&w=600',
-              altText: 'Vibrant City Skyline at Night',
-            },
-            {
-              id: 4,
-              url: 'https://images.pexels.com/photos/14014270/pexels-photo-14014270.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-              altText: 'A beautiful flower',
-            },
-          ]}
-        />
-      
-    },
+   
    
     {
                             name: 'Modal',
